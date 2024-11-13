@@ -5,6 +5,7 @@ import bcrypt
 import os
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from dotenv import load_dotenv
+from flasgger import Swagger, swag_from
 
 # Load environment variables from .env file
 load_dotenv()
@@ -17,6 +18,24 @@ DB_PATH = os.getenv('SQLITE_DB_PATH')
 PORT = int(os.getenv('PORT', 5000))
 GITHUB_MICROSERVICE_URL = os.getenv('GITHUB_MICROSERVICE_URL', 'http://github_microservice:5001')
 jwt = JWTManager(app)
+
+# Swagger configuration
+swagger_config = {
+    "headers": [],
+    "specs": [
+        {
+            "endpoint": 'apispec',
+            "route": '/apispec.json',
+            "rule_filter": lambda rule: True,  # all in
+            "model_filter": lambda tag: True,  # all in
+        }
+    ],
+    "static_url_path": "/flasgger_static",
+    "swagger_ui": True,
+    "specs_route": "/docs"
+}
+
+swagger = Swagger(app, config=swagger_config)
 
 # Database initialization
 def init_db():
@@ -41,6 +60,7 @@ def get_db():
     return conn
 
 @app.route('/')
+@swag_from('swagger/home.yaml')
 def home():
     return jsonify({
         "service": "API Gateway",
@@ -74,6 +94,7 @@ def home():
     })
 
 @app.route('/register', methods=['POST'])
+@swag_from('swagger/register.yaml')
 def register():
     data = request.get_json()
     
@@ -99,6 +120,7 @@ def register():
         conn.close()
 
 @app.route('/login', methods=['POST'])
+@swag_from('swagger/login.yaml')
 def login():
     data = request.get_json()
     
@@ -124,6 +146,7 @@ def login():
 
 @app.route('/api/github/stats', methods=['GET'])
 @jwt_required()
+@swag_from('swagger/github_stats.yaml')
 def get_github_stats():
     try:
         current_user = get_jwt_identity()

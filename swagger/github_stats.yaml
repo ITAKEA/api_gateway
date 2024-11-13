@@ -1,0 +1,42 @@
+tags:
+  - name: GitHub
+summary: Get GitHub repository statistics
+description: Retrieve GitHub repository statistics. Requires JWT authentication.
+security:
+  - Bearer: []
+parameters:
+  - in: header
+    name: Authorization
+    type: string
+    required: true
+    description: JWT token in the format 'Bearer {token}'
+responses:
+  200:
+    description: Successfully retrieved GitHub stats
+    schema:
+      type: object
+      properties:
+        requested_by:
+          type: string
+          example: "john_doe"
+        # Additional properties from GitHub microservice
+        repositories:
+          type: array
+          items:
+            type: object
+  401:
+    description: Missing or invalid authentication token
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+          example: "Missing Authorization Header"
+  500:
+    description: Server error
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Failed to connect to GitHub microservice"

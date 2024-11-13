@@ -1,0 +1,45 @@
+tags:
+  - name: Authentication
+summary: Register a new user
+description: Create a new user account with username and password
+parameters:
+  - in: body
+    name: body
+    required: true
+    schema:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: "john_doe"
+        password:
+          type: string
+          example: "secure_password123"
+responses:
+  201:
+    description: User created successfully
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "User created successfully"
+  400:
+    description: Missing username or password
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Missing username or password"
+  409:
+    description: Username already exists
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Username already exists"

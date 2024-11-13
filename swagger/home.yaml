@@ -1,0 +1,35 @@
+tags:
+  - name: Home
+summary: Get API information
+description: Returns information about the API Gateway service and lists all available endpoints
+responses:
+  200:
+    description: Successful response
+    schema:
+      type: object
+      properties:
+        service:
+          type: string
+          example: "API Gateway"
+        available_endpoints:
+          type: array
+          items:
+            type: object
+            properties:
+              path:
+                type: string
+                example: "/register"
+              method:
+                type: string
+                example: "POST"
+              description:
+                type: string
+                example: "Register a new user"
+              body:
+                type: object
+                example:
+                  username: "string"
+                  password: "string"
+              authentication:
+                type: string
+                example: "JWT required"
