@@ -60,7 +60,6 @@ def get_db():
     return conn
 
 @app.route('/')
-@swag_from('swagger/home.yaml')
 def home():
     return jsonify({
         "service": "API Gateway",
