@@ -5,7 +5,8 @@ import bcrypt
 import os
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from dotenv import load_dotenv
-from flasgger import Swagger, swag_from
+from flasgger import swag_from
+from swagger.config import init_swagger
 
 # Load environment variables from .env file
 load_dotenv()
@@ -19,23 +20,8 @@ PORT = int(os.getenv('PORT', 5000))
 GITHUB_MICROSERVICE_URL = os.getenv('GITHUB_MICROSERVICE_URL', 'http://github_microservice:5001')
 jwt = JWTManager(app)
 
-# Swagger configuration
-swagger_config = {
-    "headers": [],
-    "specs": [
-        {
-            "endpoint": 'apispec',
-            "route": '/apispec.json',
-            "rule_filter": lambda rule: True,  # all in
-            "model_filter": lambda tag: True,  # all in
-        }
-    ],
-    "static_url_path": "/flasgger_static",
-    "swagger_ui": True,
-    "specs_route": "/docs"
-}
-
-swagger = Swagger(app, config=swagger_config)
+# Initialize Swagger
+init_swagger(app)
 
 # Database initialization
 def init_db():
