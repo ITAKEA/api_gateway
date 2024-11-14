@@ -119,7 +119,7 @@ def register():
         conn.close()
 
 @app.route('/login', methods=['POST'])
-@swag_from('swagger/login.yaml')
+@swag_from('swagger/login.json')
 def login():
     data = request.get_json()
     

@@ -1,0 +1,75 @@
+{
+  "tags": [
+    {
+      "name": "Authentication"
+    }
+  ],
+  "summary": "Login user",
+  "description": "Authenticate user and receive JWT token",
+  "parameters": [
+    {
+      "in": "body",
+      "name": "body",
+      "required": true,
+      "schema": {
+        "type": "object",
+        "required": [
+          "username",
+          "password"
+        ],
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "john_doe"
+          },
+          "password": {
+            "type": "string",
+            "example": "secure_password123"
+          }
+        }
+      }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "Login successful",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Login successful"
+          },
+          "access_token": {
+            "type": "string",
+            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+          }
+        }
+      }
+    },
+    "400": {
+      "description": "Missing username or password",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Missing username or password"
+          }
+        }
+      }
+    },
+    "401": {
+      "description": "Invalid credentials",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Invalid username or password"
+          }
+        }
+      }
+    }
+  }
+}
